@@ -4,9 +4,18 @@ import { Note, NoteContent, NoteStatus } from './Note';
 
 Vue.use(Vuex);
 
+export type SortByType = 'id' | 'title' | 'content' | 'status';
+
+export interface SortData {
+    sortBy: SortByType;
+    sortAscending: boolean;
+}
+
 export interface NoteState {
     notes: Note[];
     lastId: number;
+    sortBy: SortByType;
+    sortAscending: boolean;
 }
 
 const state: NoteState = {
@@ -31,12 +40,31 @@ const state: NoteState = {
         },
     ],
     lastId: 3,
+    sortBy: 'id',
+    sortAscending: true,
 };
 
 export interface Mutations extends MutationTree<NoteState> { }
 
 const getters: GetterTree<NoteState, NoteState> = {
     notes: state => state.notes,
+    sortedNotes: state => {
+        const notes = [...state.notes].sort((a, b) => {
+            if (a[state.sortBy] > b[state.sortBy]) {
+                return 1;
+            }
+            if (a[state.sortBy] < b[state.sortBy]) {
+                return -1;
+            }
+            return 0;
+        });
+
+        if (!state.sortAscending) {
+            notes.reverse();
+        }
+
+        return notes;
+    },
     total: state => state.notes.length,
     completed: state => state.notes.filter(
         (note: Note) => note.status === NoteStatus.Completed,
@@ -57,6 +85,10 @@ const mutations: Mutations = {
     DELETE_NOTE(state, id: number) {
       state.notes = state.notes.filter(note => note.id !== id);
     },
+    SORT(state, sort: SortData) {
+        state.sortBy = sort.sortBy;
+        state.sortAscending = sort.sortAscending;
+    },
 };
 
 const actions: ActionTree<NoteState, NoteState> = {
@@ -72,10 +104,11 @@ const actions: ActionTree<NoteState, NoteState> = {
             resolve(id);
         }, 1000);
     }),
-    fetchNotes: ({commit}) => new Promise((resolve) => {
+    fetchNotes: ({commit}, payload) => new Promise((resolve) => {
         setTimeout(() => {
+            commit('SORT', payload);
             resolve();
-        }, 4000);
+        }, 1000);
     }),
 };
 

@@ -10,10 +10,10 @@
                         type="checkbox"
                         @change="handleSelectAll()">
                     </th>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Status</th>
+                    <th @click="sort('id')">ID</th>
+                    <th @click="sort('title')">Title</th>
+                    <th @click="sort('content')">Content</th>
+                    <th @click="sort('status')">Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,6 +49,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import Statistics from './components/Statistics.vue';
 import NoteForm from './components/NoteForm.vue';
 import Actionbar from './components/Actionbar.vue';
+import { SortByType } from './store';
 import { NoteStatus, NoteContent, Note, NoteStatusDictionary } from './Note';
 
 @Component({ components: { Statistics, NoteForm, Actionbar } })
@@ -59,9 +60,11 @@ export default class App extends Vue {
     private actionbar: boolean = false;
     private showLoading: boolean = true;
     private selectAll: boolean = false;
+    private sortBy: SortByType = 'id';
+    private sortAscending: boolean = true;
 
     private get notes() {
-        return this.$store.getters.notes || [];
+        return this.$store.getters.sortedNotes || [];
     }
 
     public created(): void {
@@ -78,9 +81,22 @@ export default class App extends Vue {
       }
     }
 
+    private sort(sortBy: SortByType): void {
+        if (this.sortBy === sortBy) {
+            this.sortAscending = !this.sortAscending;
+        } else {
+            this.sortBy = sortBy;
+            this.sortAscending = true;
+        }
+        this.fetchNotes();
+    }
+
     private fetchNotes(): void {
         this.showLoading = true;
-        this.$store.dispatch('fetchNotes').finally(
+        this.$store.dispatch('fetchNotes', {
+            sortBy: this.sortBy,
+            sortAscending: this.sortAscending,
+        }).finally(
             () => this.showLoading  = false,
         );
     }
