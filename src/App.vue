@@ -4,7 +4,12 @@
         <table>
             <thead>
                 <tr>
-                    <th></th>
+                    <th>
+                      <input
+                        v-model="selectAll"
+                        type="checkbox"
+                        @change="handleSelectAll()">
+                    </th>
                     <th>ID</th>
                     <th>Title</th>
                     <th>Content</th>
@@ -53,6 +58,7 @@ export default class App extends Vue {
     private selectedNotes: Note[] = [];
     private actionbar: boolean = false;
     private showLoading: boolean = true;
+    private selectAll: boolean = false;
 
     private get notes() {
         return this.$store.getters.notes || [];
@@ -60,6 +66,16 @@ export default class App extends Vue {
 
     public created(): void {
         this.fetchNotes();
+    }
+
+    private handleSelectAll(): void {
+      if ( this.selectAll ) {
+        this.selectedNotes = this.notes;
+        this.actionbar = true;
+      } else {
+        this.selectedNotes = [];
+        this.actionbar = false;
+      }
     }
 
     private fetchNotes(): void {
@@ -71,6 +87,7 @@ export default class App extends Vue {
 
     private handleChange(): void {
         this.actionbar = !!this.selectedNotes.length;
+        this.selectAll = this.selectedNotes.length === this.notes.length;
     }
 }
 </script>
