@@ -1,0 +1,22 @@
+export enum NoteStatus {
+    New,
+    Completed,
+    NotCompleted,
+}
+
+export interface NoteContent {
+    id: number;
+    title: string;
+    content: string;
+    status: NoteStatus;
+}
+
+export interface Note extends NoteContent {
+    id: number;
+}
+
+export const NoteStatusDictionary: { [id: number]: string; } = {
+    [NoteStatus.New]: 'New',
+    [NoteStatus.Completed]: 'Completed',
+    [NoteStatus.NotCompleted]: 'Not completed',
+};
