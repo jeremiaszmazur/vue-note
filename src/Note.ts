@@ -5,7 +5,6 @@ export enum NoteStatus {
 }
 
 export interface NoteContent {
-    id: number;
     title: string;
     content: string;
     status: NoteStatus;
