@@ -1,7 +1,7 @@
 <template>
     <div class="notes">
-        <statistics/>
         <div class="container">
+            <statistics/>
             <table class="datatable" :class="{loading: showLoading}">
                 <thead>
                     <tr>
@@ -196,8 +196,7 @@ export default class App extends Vue {
 @import "./styles/styles.scss";
 
 .container {
-    width: 90vw;
-    max-width: 1000px;
+    padding: 0 10vw;
     .btn {
         float: right;
         width: 100%;
