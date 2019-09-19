@@ -100,7 +100,9 @@
                     </tr>
                 </tbody>
             </table>
-            <button type="button" class="btn" @click="addForm = true">Add</button>
+            <div class="text-right">
+                <button type="button" class="btn" @click="addForm = true">Add</button>
+            </div>
         </div>
         <note-form v-model="addForm"/>
         <actionbar
@@ -199,7 +201,6 @@ export default class App extends Vue {
 .container {
     padding: 0 10vw;
     .btn {
-        float: right;
         width: 100%;
         max-width: 200px;
         margin-top: 20px;
