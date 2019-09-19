@@ -45,11 +45,8 @@ export default class Actionbar extends Vue {
 
     private deleteSelected(): void {
         this.showLoading = true;
-        const promises: Array<Promise<number>> = [];
-        this.selectedNotes.forEach((note: Note) => {
-            promises.push(this.$store.dispatch('deleteNote', note.id));
-        });
-        Promise.all(promises).then(() => {
+        const ids = Object.values(this.selectedNotes.map((note) => note.id));
+        this.$store.dispatch('deleteNotes', ids).finally(() => {
             this.showLoading = false;
             this.close();
             this.$emit('delete');

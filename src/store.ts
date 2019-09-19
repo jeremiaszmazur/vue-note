@@ -87,6 +87,9 @@ const mutations: Mutations = {
     DELETE_NOTE(state, id: number) {
       state.notes = state.notes.filter(note => note.id !== id);
     },
+    DELETE_NOTES(state, ids: number[]) {
+      state.notes = state.notes.filter(note => !ids.includes(note.id));
+    },
     SORT(state, sort: SortData) {
         state.sortBy = sort.sortBy;
         state.sortAscending = sort.sortAscending;
@@ -104,6 +107,12 @@ const actions: ActionTree<NoteState, NoteState> = {
         setTimeout(() => {
             commit('DELETE_NOTE', id);
             resolve(id);
+        }, 1000);
+    }),
+    deleteNotes: ({commit}, ids: number[]) => new Promise((resolve) => {
+        setTimeout(() => {
+            commit('DELETE_NOTES', ids);
+            resolve(ids);
         }, 1000);
     }),
     fetchNotes: () => new Promise((resolve) => {
