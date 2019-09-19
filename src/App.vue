@@ -147,10 +147,11 @@ export default class App extends Vue {
 
     private handleClearSelected(): void {
         this.selectedNotes = [];
+        this.selectAll = false;
     }
 
     private handleSelectAll(): void {
-      if ( this.selectAll ) {
+      if ( this.selectAll && this.notes.length ) {
         this.selectedNotes = this.notes;
         this.actionbar = true;
       } else {

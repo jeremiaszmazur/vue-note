@@ -7,7 +7,7 @@ $margin-actionbar: 30px;
     will-change: display;
     position: fixed;
     bottom: $margin-actionbar;
-    right: $margin-actionbar;
+    right: 5vw;
     width: calc(90vw - #{$margin-actionbar * 2});
     max-width: 700px;
     background-color: $warning-color;
