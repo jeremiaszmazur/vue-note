@@ -1,0 +1,36 @@
+$margin-noteform: 30px;
+
+.note-form {
+    display: none;
+    will-change: display;
+    position: fixed;
+    bottom: $margin-noteform;
+    left: $margin-noteform;
+    width: calc(90vw - #{$margin-noteform * 2});
+    max-width: 400px;
+    background-color: #FFF;
+    border-radius: .2rem;
+    padding: 1rem;
+    box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.4);
+    &--active {
+        display: block;
+    }
+    .input {
+        resize: none;
+    }
+    .btn {
+        margin-right: .5rem;
+        min-width: 130px;
+        .fas {
+            margin-right: .4rem;
+        }
+    }
+    .title {
+        margin: .1rem 0 1.2rem 0;
+        font-weight: 400;
+        font-size: 1.5rem;
+    }
+    p:last-child {
+        margin-bottom: 0;
+    }
+}

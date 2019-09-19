@@ -48,6 +48,8 @@ export interface Mutations extends MutationTree<NoteState> { }
 
 const getters: GetterTree<NoteState, NoteState> = {
     notes: state => state.notes,
+    sortBy: state => state.sortBy,
+    sortAscending: state => state.sortAscending,
     sortedNotes: state => {
         const notes = [...state.notes].sort((a, b) => {
             if (a[state.sortBy] > b[state.sortBy]) {
@@ -104,11 +106,16 @@ const actions: ActionTree<NoteState, NoteState> = {
             resolve(id);
         }, 1000);
     }),
-    fetchNotes: ({commit}, payload) => new Promise((resolve) => {
+    fetchNotes: () => new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, 1000);
+    }),
+    fetchSorted: ({commit}, payload) => new Promise((resolve) => {
         setTimeout(() => {
             commit('SORT', payload);
             resolve();
-        }, 1000);
+        }, 500);
     }),
 };
 

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="statistics">
         <div>
             <span>Total</span>
             <h1>{{ total }}</h1>

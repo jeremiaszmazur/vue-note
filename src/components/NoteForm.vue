@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="checkForm" class="note-form" :class="{'note-form--active': value}">
 
-        <h1>News</h1>
+        <h1 class="title">News</h1>
         
         <p>
             <input
@@ -27,8 +27,11 @@
         </p>
 
         <p>
-            <button type="submit" class="btn btn-primary" :disabled="showLoading">Save</button>
-            <button type="button" class="btn" @click="close" :disabled="showLoading">Cancel</button>
+            <button type="submit" class="btn" :disabled="showLoading">
+                <i v-if="showLoading" class="fas fa-sync fa-spin"></i>
+                Save
+            </button>
+            <button type="button" class="btn btn-flat" @click="close" :disabled="showLoading">Cancel</button>
         </p>
 
         </form>
@@ -101,21 +104,3 @@ export default class NoteForm extends Vue {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-$margin: 30px;
-
-.note-form {
-    display: none;
-    will-change: display;
-    position: fixed;
-    bottom: $margin;
-    left: $margin;
-    width: calc(90vw - #{$margin * 2});
-    max-width: 400px;
-    background-color: #FFF;
-    &--active {
-        display: block;
-    }
-}
-</style>

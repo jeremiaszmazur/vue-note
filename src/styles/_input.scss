@@ -1,0 +1,35 @@
+.input {
+    display: block;
+    width: calc(100% - 2rem);
+    padding: .5rem .7rem;
+    font-family: $font-family;
+    font-weight: 400;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .2rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    &:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+    &-error {
+        border-color: $warning-color;
+        background-repeat: no-repeat;
+        background-position: 100% calc(.375em + .1875rem);
+        background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+    }
+}
+
+
+.msg {
+    &-error {
+        width: 100%;
+        margin-top: .25rem;
+        font-size: 80%;
+        color: $warning-color;
+    }
+}

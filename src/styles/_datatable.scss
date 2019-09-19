@@ -1,0 +1,100 @@
+
+.datatable {
+    position: relative;
+    text-align: left;
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    thead {
+        tr {
+            th {
+                background-color: #989898;
+                border-right: 1px solid $bg-color;
+                padding: .3rem .5rem;
+                span.col {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    color: #FFF;
+                    font-weight: 300;
+                    font-size: .9rem;
+                    &:first-child {
+                        min-width: 100px;
+                    }
+                    .sort {
+                        display: inline-flex;
+                        cursor: pointer;
+                        align-items: center;
+                        justify-content: center;
+                        flex-direction: column;
+                        color: rgba(255, 255, 255, .5);
+                        font-size: .5rem;
+                        padding: 0 .5rem;
+                        &.active {
+                            .fa-chevron-up {
+                                color: rgba(255, 255, 255, .5);
+                            }
+                            .fa-chevron-down {
+                                color: #FFF;
+                            }
+                            &.asc {
+                                .fa-chevron-up {
+                                    color: #FFF;
+                                }
+                                .fa-chevron-down {
+                                    color: rgba(255, 255, 255, .5);
+                                }
+                            }
+                        }
+                        &:hover {
+                            color: #eee;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    tbody {
+        tr {
+            background-color: #fff;
+            border-bottom: 1px solid $bg-color;
+            td {
+                padding: .6rem .5rem;
+                font-size: .9rem;
+            }
+            &:hover {
+                background-color: #fafafa;
+            }
+        }
+    }
+    &.loading {
+        &:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .3);
+            z-index: 10;
+        }
+        &:after {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f021";
+            -webkit-animation: fa-spin 2s infinite linear;
+            animation: fa-spin 2s infinite linear;
+            font-weight: 600;
+            font-size: 2rem;
+            color: #fff;
+            position: absolute;
+            left: calc(50% - 1rem);
+            top: calc(50% - 1rem);
+            z-index: 20;
+        }
+    }
+}

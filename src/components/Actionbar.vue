@@ -1,9 +1,23 @@
 <template>
     <div class="actionbar" :class="{'actionbar--active': value}">
-        <i>!</i>
-        <span>Do you want do delete this news?</span>
-        <button type="submit" class="btn" :disabled="showLoading" @click="close">No</button>
-        <button type="submit" class="btn btn-primary" :disabled="showLoading" @click="deleteSelected">Yes</button>
+        <div>
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Do you want do delete this news?</span>
+        </div>
+        <div>
+            <button 
+                type="submit" 
+                class="btn" 
+                :disabled="showLoading" 
+                @click="clearSelected"
+            >No</button>
+            <button 
+                type="submit" 
+                class="btn btn-primary" 
+                :disabled="showLoading"
+                @click="deleteSelected"
+            ><i v-if="showLoading" class="fas fa-sync fa-spin"></i>Yes</button>
+        </div>
     </div>
 </template>
 
@@ -22,6 +36,11 @@ export default class Actionbar extends Vue {
         this.$emit('input', false);
     }
 
+    private clearSelected(): void {
+        this.close();
+        this.$emit('clear');
+    }
+
     private deleteSelected(): void {
         this.showLoading = true;
         const promises: Array<Promise<number>> = [];
@@ -31,25 +50,8 @@ export default class Actionbar extends Vue {
         Promise.all(promises).then(() => {
             this.showLoading = false;
             this.close();
+            this.$emit('delete');
         });
     }
 }
 </script>
-
-<style lang="scss" scoped>
-$margin: 30px;
-
-.actionbar {
-    display: none;
-    will-change: display;
-    position: fixed;
-    bottom: $margin;
-    right: $margin;
-    width: calc(90vw - #{$margin * 2});
-    max-width: 400px;
-    background-color: #FFF;
-    &--active {
-        display: block;
-    }
-}
-</style>

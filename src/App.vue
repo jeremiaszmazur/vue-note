@@ -1,46 +1,114 @@
 <template>
     <div class="notes">
         <statistics/>
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                      <input
-                        v-model="selectAll"
-                        type="checkbox"
-                        @change="handleSelectAll()">
-                    </th>
-                    <th @click="sort('id')">ID</th>
-                    <th @click="sort('title')">Title</th>
-                    <th @click="sort('content')">Content</th>
-                    <th @click="sort('status')">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <template v-if="notes.length">
-                    <tr v-for="note in notes" :key="note.id">
-                        <td>
-                            <input
-                                v-model="selectedNotes"
-                                type="checkbox"
-                                :id="note.id"
-                                :value="note"
-                                @change="handleChange(note)">
-                        </td>
-                        <td>{{note.id}}</td>
-                        <td>{{note.title}}</td>
-                        <td>{{note.content}}</td>
-                        <td>{{statusDictionary[note.status]}}</td>
+        <div class="container">
+            <table class="datatable" :class="{loading: showLoading}">
+                <thead>
+                    <tr>
+                        <th>
+                            <span class="col">
+                                <label class="checkbox-wrapper">ID
+                                    <input
+                                        v-model="selectAll"
+                                        type="checkbox"
+                                        @change="handleSelectAll()">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span
+                                    class="sort"
+                                    @click="sort('id')"
+                                    :class="{
+                                        'active': sortBy === 'id',
+                                        'asc': sortAscending
+                                    }">
+                                    <i class="fas fa-chevron-up"></i>
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span class="col">
+                                Title
+                                <span
+                                    class="sort"
+                                    @click="sort('title')"
+                                    :class="{
+                                        'active': sortBy === 'title',
+                                        'asc': sortAscending
+                                    }">
+                                    <i class="fas fa-chevron-up"></i>
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span class="col">
+                                Content
+                                <span
+                                    class="sort"
+                                    @click="sort('content')"
+                                    :class="{
+                                        'active': sortBy === 'content',
+                                        'asc': sortAscending
+                                    }">
+                                    <i class="fas fa-chevron-up"></i>
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span class="col">
+                                Status
+                                <span
+                                    class="sort"
+                                    @click="sort('status')"
+                                    :class="{
+                                        'active': sortBy === 'status',
+                                        'asc': sortAscending
+                                    }">
+                                    <i class="fas fa-chevron-up"></i>
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
+                            </span>
+                        </th>
                     </tr>
-                </template>
-                <tr v-else colspan="4">
-                    No notes. Add some :)
-                </tr>
-            </tbody>
-        </table>
-        <button type="button" @click="addForm = true">Add</button>
+                </thead>
+                <tbody>
+                    <template v-if="notes.length">
+                        <tr v-for="note in notes" :key="note.id">
+                            <td>
+                                <label class="checkbox-wrapper">
+                                    {{note.id}}
+                                    <input
+                                        v-model="selectedNotes"
+                                        type="checkbox"
+                                        :id="note.id"
+                                        :value="note"
+                                        @change="handleChange(note)">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td>{{note.title}}</td>
+                            <td>{{note.content}}</td>
+                            <td>{{statusDictionary[note.status]}}</td>
+                        </tr>
+                    </template>
+                    <tr v-else>
+                        <td colspan="4">
+                            Empty note list. Add some :)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn" @click="addForm = true">Add</button>
+        </div>
         <note-form v-model="addForm"/>
-        <actionbar v-model="actionbar" :selectedNotes="selectedNotes"/>
+        <actionbar
+            v-model="actionbar"
+            :selectedNotes="selectedNotes"
+            @delete="handleDelete"
+            @clear="handleClearSelected"
+        />
     </div>
 </template>
 
@@ -60,15 +128,25 @@ export default class App extends Vue {
     private actionbar: boolean = false;
     private showLoading: boolean = true;
     private selectAll: boolean = false;
-    private sortBy: SortByType = 'id';
-    private sortAscending: boolean = true;
 
-    private get notes() {
+    private get notes(): Note[] {
         return this.$store.getters.sortedNotes || [];
+    }
+
+    private get sortBy(): SortByType {
+        return this.$store.getters.sortBy;
+    }
+
+    private get sortAscending(): boolean {
+        return this.$store.getters.sortAscending;
     }
 
     public created(): void {
         this.fetchNotes();
+    }
+
+    private handleClearSelected(): void {
+        this.selectedNotes = [];
     }
 
     private handleSelectAll(): void {
@@ -82,20 +160,21 @@ export default class App extends Vue {
     }
 
     private sort(sortBy: SortByType): void {
-        if (this.sortBy === sortBy) {
-            this.sortAscending = !this.sortAscending;
-        } else {
-            this.sortBy = sortBy;
-            this.sortAscending = true;
-        }
-        this.fetchNotes();
+        this.fetchSorted(sortBy, this.sortBy === sortBy ? !this.sortAscending : true);
     }
 
     private fetchNotes(): void {
         this.showLoading = true;
-        this.$store.dispatch('fetchNotes', {
-            sortBy: this.sortBy,
-            sortAscending: this.sortAscending,
+        this.$store.dispatch('fetchNotes').finally(
+            () => this.showLoading  = false,
+        );
+    }
+
+    private fetchSorted(sortBy: SortByType, sortAscending: boolean): void {
+        this.showLoading = true;
+        this.$store.dispatch('fetchSorted', {
+            sortBy,
+            sortAscending,
         }).finally(
             () => this.showLoading  = false,
         );
@@ -105,5 +184,25 @@ export default class App extends Vue {
         this.actionbar = !!this.selectedNotes.length;
         this.selectAll = this.selectedNotes.length === this.notes.length;
     }
+
+    private handleDelete(): void {
+        this.selectAll = false;
+        this.selectedNotes = [];
+    }
 }
 </script>
+
+<style lang="scss">
+@import "./styles/styles.scss";
+
+.container {
+    width: 90vw;
+    max-width: 1000px;
+    .btn {
+        float: right;
+        width: 100%;
+        max-width: 200px;
+        margin-top: 20px;
+    }
+}
+</style>
