@@ -1,7 +1,7 @@
 # vue-note
 
-## Project setup
-Demo: https://note.jmazur.dev/
+## Demo
+https://note.jmazur.dev/
 
 ## Project setup
 ```
