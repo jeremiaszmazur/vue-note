@@ -1,6 +1,9 @@
 # vue-note
 
 ## Project setup
+Demo: https://note.jmazur.dev/
+
+## Project setup
 ```
 npm install
 ```
