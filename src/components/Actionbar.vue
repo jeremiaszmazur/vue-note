@@ -1,24 +1,26 @@
 <template>
-    <div class="actionbar" :class="{'actionbar--active': value}">
-        <div>
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>Do you want do delete this news?</span>
+    <transition name="slide-fade">
+        <div v-if="value" class="actionbar">
+            <div>
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Do you want do delete this news?</span>
+            </div>
+            <div>
+                <button 
+                    type="submit" 
+                    class="btn" 
+                    :disabled="showLoading" 
+                    @click="clearSelected"
+                >No</button>
+                <button 
+                    type="submit" 
+                    class="btn btn-primary" 
+                    :disabled="showLoading"
+                    @click="deleteSelected"
+                ><i v-if="showLoading" class="fas fa-sync fa-spin"></i>Yes</button>
+            </div>
         </div>
-        <div>
-            <button 
-                type="submit" 
-                class="btn" 
-                :disabled="showLoading" 
-                @click="clearSelected"
-            >No</button>
-            <button 
-                type="submit" 
-                class="btn btn-primary" 
-                :disabled="showLoading"
-                @click="deleteSelected"
-            ><i v-if="showLoading" class="fas fa-sync fa-spin"></i>Yes</button>
-        </div>
-    </div>
+    </transition>
 </template>
 
 

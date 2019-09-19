@@ -1,7 +1,7 @@
 $margin-noteform: 30px;
 
 .note-form {
-    display: none;
+    display: block;
     will-change: display;
     position: fixed;
     bottom: $margin-noteform;
@@ -12,9 +12,6 @@ $margin-noteform: 30px;
     border-radius: .2rem;
     padding: 1rem;
     box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.4);
-    &--active {
-        display: block;
-    }
     .input {
         resize: none;
     }

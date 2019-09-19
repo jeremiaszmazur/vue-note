@@ -1,7 +1,7 @@
 $margin-actionbar: 30px;
 
 .actionbar {
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     will-change: display;
@@ -15,9 +15,6 @@ $margin-actionbar: 30px;
     border-radius: .3rem;
     width: 90vw;
     padding: .3rem;
-    &--active {
-        display: flex;
-    }
     .fas {
         margin: 0 .5rem;
     }

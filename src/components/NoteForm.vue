@@ -1,40 +1,42 @@
 <template>
-    <form @submit.prevent="checkForm" class="note-form" :class="{'note-form--active': value}">
+    <transition name="slide-fade">
+        <form v-if="value" @submit.prevent="checkForm" class="note-form" :class="{'note-form--active': value}">
 
-        <h1 class="title">News</h1>
-        
-        <p>
-            <input
-                v-model="title"
-                type="text"
-                placeholder="Add title"
-                class="input"
-                :class="{'input-error': titleError}"
-                :disabled="showLoading"/>
-            <span v-if="titleError" class="msg msg-error">{{ titleError }}</span>
-        </p>
+            <h1 class="title">News</h1>
+            
+            <p>
+                <input
+                    v-model="title"
+                    type="text"
+                    placeholder="Add title"
+                    class="input"
+                    :class="{'input-error': titleError}"
+                    :disabled="showLoading"/>
+                <span v-if="titleError" class="msg msg-error">{{ titleError }}</span>
+            </p>
 
-        <p>
-            <textarea
-                v-model="content"
-                rows="4"
-                cols="50"
-                placeholder="Add content"
-                class="input"
-                :class="{'input-error': contentError}"
-                :disabled="showLoading"/>
-            <span v-if="contentError" class="msg msg-error">{{ contentError }}</span>
-        </p>
+            <p>
+                <textarea
+                    v-model="content"
+                    rows="4"
+                    cols="50"
+                    placeholder="Add content"
+                    class="input"
+                    :class="{'input-error': contentError}"
+                    :disabled="showLoading"/>
+                <span v-if="contentError" class="msg msg-error">{{ contentError }}</span>
+            </p>
 
-        <p>
-            <button type="submit" class="btn" :disabled="showLoading">
-                <i v-if="showLoading" class="fas fa-sync fa-spin"></i>
-                Save
-            </button>
-            <button type="button" class="btn btn-flat" @click="close" :disabled="showLoading">Cancel</button>
-        </p>
+            <p>
+                <button type="submit" class="btn" :disabled="showLoading">
+                    <i v-if="showLoading" class="fas fa-sync fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-flat" @click="close" :disabled="showLoading">Cancel</button>
+            </p>
 
         </form>
+    </transition>
 </template>
 
 
