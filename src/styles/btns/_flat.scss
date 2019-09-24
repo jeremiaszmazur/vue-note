@@ -1,0 +1,13 @@
+:root {
+    --btn-flat-text-color: #{$primary-color};
+    --btn-flat-bg-color: #fff;
+    --btn-flat-border-color: #fff;
+
+    --btn-flat-hover-text-color: #{darken($primary-color, 10%)};
+    --btn-flat-hover-bg-color: #{darken(#fff, 5%)};
+    --btn-flat-hover-border-color: #{darken(#fff, 10%)};
+
+    --btn-flat-disabled-text-color: #{lighten($primary-color, 50%)};
+    --btn-flat-disabled-bg-color: #fff;
+    --btn-flat-disabled-border-color: #fff;
+}

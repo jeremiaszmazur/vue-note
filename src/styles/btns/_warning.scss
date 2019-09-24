@@ -1,0 +1,13 @@
+:root {
+    --btn-warning-text-color: #fff;
+    --btn-warning-bg-color: #{$warning-color};
+    --btn-warning-border-color: #fff;
+
+    --btn-warning-hover-text-color: #fff;
+    --btn-warning-hover-bg-color: #{darken($warning-color, 10%)};
+    --btn-warning-hover-border-color: #fff;
+
+    --btn-warning-disabled-text-color: #ddd;
+    --btn-warning-disabled-bg-color: #{darken($warning-color, 20%)};
+    --btn-warning-disabled-border-color: #ccc;
+}

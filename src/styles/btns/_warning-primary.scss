@@ -1,0 +1,13 @@
+:root {
+    --btn-warning-primary-text-color: #{$warning-color};
+    --btn-warning-primary-bg-color: #fff;
+    --btn-warning-primary-border-color: #fff;
+
+    --btn-warning-primary-hover-text-color: #{$warning-color};
+    --btn-warning-primary-hover-bg-color: #eee;
+    --btn-warning-primary-hover-border-color: transparent;
+
+    --btn-warning-primary-disabled-text-color: #{darken($warning-color, 20%)};
+    --btn-warning-primary-disabled-bg-color: #ddd;
+    --btn-warning-primary-disabled-border-color: transparent;
+}

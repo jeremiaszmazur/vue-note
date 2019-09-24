@@ -1,4 +1,3 @@
-
 .datatable {
     position: relative;
     text-align: left;
@@ -10,15 +9,15 @@
             th {
                 background-color: $datatable-color;
                 border-right: 1px solid $bg-color;
-                padding: .3rem .5rem;
+                padding: 0.3rem 0.5rem;
                 span.col {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
                     width: 100%;
-                    color: #FFF;
+                    color: #fff;
                     font-weight: 300;
-                    font-size: .9rem;
+                    font-size: 0.9rem;
                     &:first-child {
                         min-width: 100px;
                     }
@@ -28,22 +27,22 @@
                         align-items: center;
                         justify-content: center;
                         flex-direction: column;
-                        color: rgba(255, 255, 255, .5);
-                        font-size: .5rem;
-                        padding: 0 .5rem;
+                        color: rgba(255, 255, 255, 0.5);
+                        font-size: 0.5rem;
+                        padding: 0 0.5rem;
                         &.active {
                             .fa-chevron-up {
-                                color: rgba(255, 255, 255, .5);
+                                color: rgba(255, 255, 255, 0.5);
                             }
                             .fa-chevron-down {
-                                color: #FFF;
+                                color: #fff;
                             }
                             &.asc {
                                 .fa-chevron-up {
-                                    color: #FFF;
+                                    color: #fff;
                                 }
                                 .fa-chevron-down {
-                                    color: rgba(255, 255, 255, .5);
+                                    color: rgba(255, 255, 255, 0.5);
                                 }
                             }
                         }
@@ -60,8 +59,8 @@
             background-color: #fff;
             border-bottom: 1px solid $bg-color;
             td {
-                padding: .6rem .5rem;
-                font-size: .9rem;
+                padding: 0.6rem 0.5rem;
+                font-size: 0.9rem;
             }
             &:hover {
                 background-color: #fafafa;
@@ -70,22 +69,22 @@
     }
     &.loading {
         &:before {
-            content: "";
+            content: '';
             position: absolute;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, .3);
+            background-color: rgba(0, 0, 0, 0.3);
             z-index: 10;
         }
         &:after {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: "Font Awesome 5 Free";
+            font-family: 'Font Awesome 5 Free';
             font-weight: 900;
-            content: "\f021";
+            content: '\f021';
             -webkit-animation: fa-spin 2s infinite linear;
             animation: fa-spin 2s infinite linear;
             font-weight: 600;
