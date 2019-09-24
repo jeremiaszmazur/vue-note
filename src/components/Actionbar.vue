@@ -1,23 +1,27 @@
 <template>
     <transition name="slide-fade">
-        <div v-if="value" class="actionbar">
+        <div v-if="show" class="actionbar">
             <div>
                 <i class="fas fa-exclamation-triangle"></i>
-                <span>Do you want do delete this news?</span>
+                <span>
+                    <slot />
+                </span>
             </div>
             <div>
-                <button 
-                    type="submit" 
-                    class="btn" 
-                    :disabled="showLoading" 
+                <button
+                    type="submit"
+                    class="btn btn-warning"
+                    :disabled="showLoading"
                     @click="clearSelected"
                 >No</button>
-                <button 
-                    type="submit" 
-                    class="btn btn-primary" 
+                <button
+                    type="submit"
+                    class="btn btn-warning-primary"
                     :disabled="showLoading"
                     @click="deleteSelected"
-                ><i v-if="showLoading" class="fas fa-sync fa-spin"></i>Yes</button>
+                >
+                    <i v-if="showLoading" class="fas fa-sync fa-spin"></i>Yes
+                </button>
             </div>
         </div>
     </transition>
@@ -30,12 +34,14 @@ import { Note } from '../Note';
 
 @Component
 export default class Actionbar extends Vue {
-    @Prop() private value!: boolean;
-    @Prop() private selectedNotes!: Note[];
-    private showLoading: boolean = false;
+    @Prop({ required: true })
+    private show!: boolean;
+
+    @Prop({ required: false, default: false })
+    private showLoading!: boolean;
 
     private close(): void {
-        this.$emit('input', false);
+        this.$emit('close');
     }
 
     private clearSelected(): void {
@@ -44,13 +50,7 @@ export default class Actionbar extends Vue {
     }
 
     private deleteSelected(): void {
-        this.showLoading = true;
-        const ids = Object.values(this.selectedNotes.map((note) => note.id));
-        this.$store.dispatch('deleteNotes', ids).finally(() => {
-            this.showLoading = false;
-            this.close();
-            this.$emit('delete');
-        });
+        this.$emit('delete');
     }
 }
 </script>

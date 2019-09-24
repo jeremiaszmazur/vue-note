@@ -1,9 +1,13 @@
 <template>
     <transition name="slide-fade">
-        <form v-if="value" @submit.prevent="checkForm" class="note-form" :class="{'note-form--active': value}">
-
+        <form
+            v-if="value"
+            @submit.prevent="checkForm"
+            class="note-form"
+            :class="{'note-form--active': value}"
+        >
             <h1 class="title">News</h1>
-            
+
             <p>
                 <input
                     v-model="title"
@@ -11,7 +15,8 @@
                     placeholder="Add title"
                     class="input"
                     :class="{'input-error': titleError}"
-                    :disabled="showLoading"/>
+                    :disabled="showLoading"
+                />
                 <span v-if="titleError" class="msg msg-error">{{ titleError }}</span>
             </p>
 
@@ -23,7 +28,8 @@
                     placeholder="Add content"
                     class="input"
                     :class="{'input-error': contentError}"
-                    :disabled="showLoading"/>
+                    :disabled="showLoading"
+                />
                 <span v-if="contentError" class="msg msg-error">{{ contentError }}</span>
             </p>
 
@@ -32,9 +38,13 @@
                     <i v-if="showLoading" class="fas fa-sync fa-spin"></i>
                     Save
                 </button>
-                <button type="button" class="btn btn-flat" @click="close" :disabled="showLoading">Cancel</button>
+                <button
+                    type="button"
+                    class="btn btn-flat"
+                    @click="close"
+                    :disabled="showLoading"
+                >Cancel</button>
             </p>
-
         </form>
     </transition>
 </template>
@@ -73,13 +83,15 @@ export default class NoteForm extends Vue {
         }
 
         if (this.title && this.content) {
-            this.addNote({
-                title: this.title,
-                content: this.content,
-                status: NoteStatus.New,
-            }, () => this.close());
+            this.addNote(
+                {
+                    title: this.title,
+                    content: this.content,
+                    status: NoteStatus.New,
+                },
+                () => this.close(),
+            );
         }
-
     }
 
     private addNote(noteContent: NoteContent, cb: () => void): void {

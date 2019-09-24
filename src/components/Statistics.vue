@@ -16,18 +16,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component
 export default class Statistics extends Vue {
-    private get total() {
-        return this.$store.getters.total || 0;
-    }
-    private get completed() {
-        return this.$store.getters.completed || 0;
-    }
-    private get notCompleted() {
-        return this.$store.getters.notCompleted || 0;
-    }
+    @Prop({ required: true })
+    private total!: number;
+
+    @Prop({ required: true })
+    private completed!: number;
+
+    @Prop({ required: true })
+    private notCompleted!: number;
 }
 </script>
