@@ -10,25 +10,27 @@
 
             <p>
                 <input
-                    v-model="title"
+                    v-model.trim="title"
                     type="text"
                     placeholder="Add title"
                     class="input"
                     :class="{'input-error': titleError}"
                     :disabled="showLoading"
+                    @change="validTitle"
                 />
                 <span v-if="titleError" class="msg msg-error">{{ titleError }}</span>
             </p>
 
             <p>
                 <textarea
-                    v-model="content"
+                    v-model.trim="content"
                     rows="4"
                     cols="50"
                     placeholder="Add content"
                     class="input"
                     :class="{'input-error': contentError}"
                     :disabled="showLoading"
+                    @change="validContent"
                 />
                 <span v-if="contentError" class="msg msg-error">{{ contentError }}</span>
             </p>
@@ -69,20 +71,30 @@ export default class NoteForm extends Vue {
         this.resetInputs();
     }
 
+    private validTitle(): boolean {
+        const valid = !!this.title;
+        this.titleError = valid ? '' : 'Title is required.';
+        return valid;
+    }
+
+    private validContent(): boolean {
+        const valid = !!this.content;
+        this.contentError = valid ? '' : 'Title is required.';
+        return valid;
+    }
+
+    private valid(): boolean {
+        const validContent = this.validContent();
+        const validTitle = this.validTitle();
+        return validContent && validTitle;
+    }
+
     private checkForm(event: Event): void {
         if (this.showLoading) {
             return;
         }
-        this.resetErrors();
 
-        if (!this.title) {
-            this.titleError = 'Title is required.';
-        }
-        if (!this.content) {
-            this.contentError = 'Content is required.';
-        }
-
-        if (this.title && this.content) {
+        if (this.valid()) {
             this.addNote(
                 {
                     title: this.title,
