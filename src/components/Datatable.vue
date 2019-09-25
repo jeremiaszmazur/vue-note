@@ -139,6 +139,13 @@ export default class Datatable extends Vue {
         this.selectedNotes = value;
     }
 
+    @Watch('notes')
+    private onNotesChanged(value: Note[]): void {
+        if ( this.selectAll ) {
+            this.selectedNotes = value;
+        }
+    }
+
     private get sortBy(): SortByType {
         return this.$store.getters.sortBy;
     }
