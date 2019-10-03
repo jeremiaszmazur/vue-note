@@ -13,8 +13,6 @@
     "interface-name": false,
     "no-consecutive-blank-lines": false,
     "object-literal-sort-keys": false,
-    "no-shadowed-variable": false,
-    "arrow-parens": false,
     "ordered-imports": false,
     "quotemark": [true, "single"]
   }
